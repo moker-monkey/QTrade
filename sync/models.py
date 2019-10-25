@@ -8,7 +8,9 @@ class SyncRecoder(models.Model):
     使用方式，通过装饰方法Record对task进行装饰，
     '''
     name = models.CharField(
-        max_length=30, blank=False, verbose_name='表名', primary_key=True)
+        max_length=30, blank=False, verbose_name='名称', primary_key=True)
+    alias = models.CharField(
+        max_length=30, blank=False, verbose_name='别名', unique=True)
     describe = models.CharField(
         max_length=100, blank=True, null=True, verbose_name='描述')
     status = models.CharField(max_length=30, verbose_name='更新状态')
@@ -24,7 +26,8 @@ class SyncRecoder(models.Model):
     update = models.CharField(
         max_length=1000, blank=True, null=True, verbose_name='更新参数')
     period = models.CharField(max_length=100, verbose_name='周期参数')
-    
+    error = models.CharField(
+        max_length=1000, blank=True, null=True, verbose_name='错误信息')
 
     class Meta:
         verbose_name = "同步记录"
