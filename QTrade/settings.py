@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     'users',
-    'sync'
+    'sync',
+    'sync_db'
 ]
 
 
