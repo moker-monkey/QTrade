@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes', 'django.contrib.sessions',
     'django.contrib.messages', 'django.contrib.staticfiles', 'rest_framework',
     'celery', 'django_celery_results', 'django_celery_beat', 'users', 'sync',
-    'sync_db'
+    'sync_db', 'QTdeal'
 ]
 
 MIDDLEWARE = [

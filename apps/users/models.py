@@ -21,7 +21,7 @@ class UserProfile(AbstractUser):
     email = models.CharField(
         max_length=100, null=True, blank=True, verbose_name="邮箱")
     cash = models.IntegerField(verbose_name='现金', default=100000)
-    stock = models.ManyToManyField(SyncDataStockBasic, verbose_name='股票')
+    stock = models.ManyToManyField(SyncDataStockBasic, verbose_name='股票',)
 
     class Meta:
         verbose_name = "用户"
