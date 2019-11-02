@@ -32,15 +32,15 @@ def test():
 
 
 def init():
-    auto_to_sql.delay(
-        'disclosure_date',
-        '财报披露计划',
-        True,
-        params={
-            'exchage': '',
-            'list_status': 'L',
-            'fields': 'ts_code,symbol,name,area,industry,list_date'
-        })
+    # auto_to_sql.delay(
+    #     'disclosure_date',
+    #     '财报披露计划',
+    #     True,
+    #     params={
+    #         'exchage': '',
+    #         'list_status': 'L',
+    #         'fields': 'ts_code,symbol,name,area,industry,list_date'
+    #     })
 
     # auto_to_sql.delay(
     #     'stock_company',
