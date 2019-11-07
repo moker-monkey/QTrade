@@ -171,6 +171,40 @@ def init():
     #     wait=1
     # )
 
+    # loopstock_to_sql.delay(
+    #     # 最多取近三年的数据
+    #     name='disclosure_date',
+    #     describe='财报披露计划日期',
+    #     isCreate=True,
+    #     field='ts_code',
+    #     params={
+            
+    #     },
+    #     wait=1
+    # )
+
+    loopstock_to_sql.delay(
+        name='dividend',
+        describe='分红送股数据',
+        isCreate=True,
+        field='ts_code',
+        params={
+            
+        },
+        wait=1
+    )
+
+    # loopstock_to_sql.delay(
+    #     name='fina_indicator',
+    #     describe='财务正报',
+    #     isCreate=True,
+    #     field='ts_code',
+    #     params={
+            
+    #     },
+    #     wait=1
+    # )
+
 
 # from sync.tasks_script import init
 # init(name='stock_basic',params={'exchage':'','list_status':'L','fields':'ts_code,symbol,name,area,industry,list_date'})

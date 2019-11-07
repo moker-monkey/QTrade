@@ -20,12 +20,13 @@ class Deal():
         self.name = name
         self.capital = capital
         self.money_lock = 0
+        self.money_rest = capital
 
     def create_capital(self, ts_code, deal_action, deal_price, stock_vol, bz,
                        state_dt, serial):
         self.money_lock = deal_price * stock_vol
-        self.capital = eval(
-            f"{self.capital} {'-' if deal_action == 'buy' else '+'} {self.money_lock}"
+        self.money_rest = eval(
+            f"{self.money_rest} {'-' if deal_action == 'buy' else '+'} {self.money_lock}"
         )
         hold_days = 0
         profit = 0
@@ -35,14 +36,14 @@ class Deal():
         # 错误，stockpool 没有state_dt字段
         if deal_action == 'sell':
             buy = MyStockPool.objects.get(id=serial)
-            profit = buy.buy_price * buy.hold_vol - self.money_lock
+            profit = self.money_lock - (buy.buy_price * buy.hold_vol)
             profit_rate = profit / self.capital
-            hold_days = (parse(state_dt) - parse(buy.state_dt)).days
+            hold_days = (parse(state_dt) - parse(buy.opdate)).days
         params = {
             'name': self.name,
-            'capital': self.capital,
+            'capital': self.money_lock + self.money_rest,
             'money_lock': self.money_lock,
-            'money_rest': self.capital - self.money_lock,
+            'money_rest': self.money_rest,
             'deal_action': deal_action,
             'ts_code': ts_code,
             'deal_price': deal_price,
@@ -58,13 +59,15 @@ class Deal():
         mc.save()
         return mc
 
-    def add_stock_pool(self, ts_code, buy_price, hold_vol, hold_days=1):
+    def add_stock_pool(self, ts_code, buy_price, hold_vol, opdate,
+                       hold_days=1):
         msp = MyStockPool(
             **{
                 'ts_code': ts_code,
                 'buy_price': buy_price,
                 'hold_vol': hold_vol,
-                'hold_days': hold_days
+                'hold_days': hold_days,
+                'opdate': opdate
             })
         msp.save()
         return msp
@@ -81,6 +84,8 @@ class Deal():
             MyCapital.objects.all().delete()
             print('MyCapital is clear')
 
+    
+
     def buy(
             self,
             ts_code,
@@ -90,7 +95,7 @@ class Deal():
             bz='',
     ):
         # 创建一条capital和MyStockPool，返回id
-        serial = self.add_stock_pool(ts_code, price, vol).id
+        serial = self.add_stock_pool(ts_code, price, vol, opdate).id
         self.create_capital(ts_code, 'buy', price, vol, bz, opdate, serial)
         return serial
 
@@ -130,11 +135,16 @@ class Deal():
 
     def test_deal(self, start_date, end_date, freq='D', periods=10):
         '''
-        该测试函数是为了模拟真实的交易环境，其配合交易日历，新闻，公司报告等函数进行
+        该测试函数是为了模拟真实的交易环境，其配合交易日历，新闻，公司报告等函数
+        在重写tactics与get_stock后，直接调用就可以了，
         '''
-        datetime_index = pd.date_range(start_date, end_date, periods, freq)
+        print('start', start_date)
+        print('end', end_date)
+        datetime_index = pd.date_range(
+            start=start_date, end=end_date, freq=freq)
         for i, v in enumerate(datetime_index):
             # v.date()是datetime对象
+            # 选股模块
             ts_code = self.get_stock(v.date())
             # 交易策略模块
             self.tactics(self.buy, self.sell, ts_code, v.date())

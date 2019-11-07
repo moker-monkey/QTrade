@@ -3,13 +3,17 @@ from celery.app import shared_task
 from .dealModel import Deal
 
 
-class myDeal(Deal):
-    def __init__(self):
-        super().__init__()
+class MyDeal(Deal):
+    def __init__(self, name, capital=100000):
+        super().__init__(name=name, capital=capital)
+
+
+    def tactics(self, buy, sell, ts_code, trade_date):
+        s = buy('000001.SZ', '20190202', 24.14, 200, '我的第一次购买')
+        sell('000001.SZ', s, '20190303', 28.12, 200)
 
 
 # @shared_task(bind=True)
 def test_deal():
-    deal = Deal('test')
-    # s = deal.buy('000001.SZ', '20190202', 24.14, 200, '我的第一次购买')
-    deal.sell('000001.SZ', 3,'20190303', 28.12, 200)
+    deal = MyDeal('test-one')
+    deal.test_deal(start_date='20190201', end_date='20190330')

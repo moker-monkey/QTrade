@@ -69,11 +69,15 @@ def get_tushare(name, params, alias=''):
             data = pro.shibor(**params)
         elif name == 'stock_company':
             data = pro.stock_company(**params)
+        elif name == 'dividend':
+            data = pro.dividend(**params)
         elif name == 'express':
             data = pro.express(**params)
         elif name == 'disclosure_date':
             data = pro.disclosure_date(**params)
         elif name == 'pro_bar':
+            data = ts.pro_bar(**params)
+        elif name == 'dividend':
             data = ts.pro_bar(**params)
         else:
             data = pro.query(name, **params)
