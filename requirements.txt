@@ -35,7 +35,7 @@ ipython-genutils==0.2.0
 jdcal==1.4.1
 jedi==0.15.1
 kombu==4.6.4
-lxml==4.4.1
+lxml==4.6.3
 mysqlclient==1.4.2.post1
 numpy==1.16.4
 odfpy==1.4.0
