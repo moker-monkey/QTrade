@@ -37,7 +37,7 @@ jedi==0.15.1
 kombu==4.6.4
 lxml==4.4.1
 mysqlclient==1.4.2.post1
-numpy==1.16.4
+numpy==1.22.0
 odfpy==1.4.0
 openpyxl==2.6.2
 pandas==0.25.1
