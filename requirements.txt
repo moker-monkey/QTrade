@@ -14,7 +14,7 @@ defusedxml==0.6.0
 diff-match-patch==20181111
 Django==2.2.3
 django-celery-beat==1.5.0
-django-celery-results==1.1.2
+django-celery-results==2.4.0
 django-crispy-forms==1.7.2
 django-extensions==2.2.5
 django-formtools==2.1
